@@ -1,0 +1,155 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class PlayerController : MonoBehaviour
+{
+    public float speed = 5f;
+    public float jumpForce = 5f;
+    public float fallLimit = -10f;
+
+    private Rigidbody rb;
+    private bool isGrounded;
+    public bool boia = false;
+
+    private PlayerInputActions inputActions;
+    private Vector2 moveInput;
+
+    private Vector3 spawnPosition;
+
+    // 🔥 Plataforma móvel
+    private Transform currentPlatform;
+    private Vector3 lastPlatformPosition;
+
+    void Awake()
+    {
+        inputActions = new PlayerInputActions();
+
+        inputActions.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        inputActions.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+        inputActions.Player.Jump.performed += ctx => Jump();
+    }
+
+    void OnEnable()
+    {
+        inputActions.Enable();
+    }
+
+    void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        spawnPosition = transform.position;
+    }
+
+    void FixedUpdate()
+    {
+        ApplyPlatformMovement();
+        Move();
+    }
+
+    void Update()
+    {
+        CheckFall();
+    }
+
+    // 🔥 MOVIMENTO DO PLAYER
+    void Move()
+    {
+        Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y).normalized;
+
+        Vector3 targetVelocity = movement * speed;
+        Vector3 currentVelocity = rb.linearVelocity;
+
+        Vector3 velocityChange = new Vector3(
+            targetVelocity.x - currentVelocity.x,
+            0,
+            targetVelocity.z - currentVelocity.z
+        );
+
+        rb.AddForce(velocityChange, ForceMode.VelocityChange);
+    }
+
+    // 🔥 MOVIMENTO DA PLATAFORMA APLICADO NO PLAYER
+    void ApplyPlatformMovement()
+    {
+        if (currentPlatform != null)
+        {
+            Vector3 platformDelta = currentPlatform.position - lastPlatformPosition;
+
+            rb.MovePosition(rb.position + platformDelta);
+
+            lastPlatformPosition = currentPlatform.position;
+        }
+    }
+
+    void Jump()
+    {
+        if (isGrounded)
+        {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    void CheckFall()
+    {
+        if (transform.position.y < fallLimit)
+        {
+            Die(spawnPosition);
+        }
+    }
+
+    public void Die(Vector3 respawnPosition)
+    {
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        transform.position = respawnPosition;
+
+        currentPlatform = null;
+    }
+
+    void OnCollisionStay(Collision collision)
+    {
+        isGrounded = true;
+
+        if (collision.gameObject.CompareTag("MovingPlatform"))
+        {
+            if (currentPlatform != collision.transform)
+            {
+                currentPlatform = collision.transform;
+                lastPlatformPosition = currentPlatform.position;
+            }
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        isGrounded = false;
+
+        if (collision.gameObject.CompareTag("MovingPlatform"))
+        {
+            currentPlatform = null;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            if (boia)
+            {
+                isGrounded = true;
+            }
+            else
+            {
+                Die(spawnPosition);
+            }
+        }
+    }
+}
