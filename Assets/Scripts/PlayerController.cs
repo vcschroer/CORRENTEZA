@@ -9,14 +9,18 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private bool isGrounded;
-    public bool boia = false;
+
+    public bool boia
+    {
+        get { return GameManager.Instance != null ? GameManager.Instance.temBoia : false; }
+        set { if (GameManager.Instance != null) GameManager.Instance.temBoia = value; }
+    }
 
     private PlayerInputActions inputActions;
     private Vector2 moveInput;
 
     private Vector3 spawnPosition;
 
-    // 🔥 Plataforma móvel
     private Transform currentPlatform;
     private Vector3 lastPlatformPosition;
 
@@ -28,6 +32,8 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Move.canceled += ctx => moveInput = Vector2.zero;
 
         inputActions.Player.Jump.performed += ctx => Jump();
+
+        DontDestroyOnLoad(gameObject);
     }
 
     void OnEnable()
@@ -43,6 +49,13 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        if (GameManager.Instance != null && GameManager.Instance.veioDeUmaCasa)
+        {
+            transform.position = GameManager.Instance.posicaoNoMapaPrincipal;
+            GameManager.Instance.veioDeUmaCasa = false; 
+        }
+
         spawnPosition = transform.position;
     }
 
@@ -57,7 +70,6 @@ public class PlayerController : MonoBehaviour
         CheckFall();
     }
 
-    // 🔥 MOVIMENTO DO PLAYER
     void Move()
     {
         Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y).normalized;
@@ -74,15 +86,12 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(velocityChange, ForceMode.VelocityChange);
     }
 
-    // 🔥 MOVIMENTO DA PLATAFORMA APLICADO NO PLAYER
     void ApplyPlatformMovement()
     {
         if (currentPlatform != null)
         {
             Vector3 platformDelta = currentPlatform.position - lastPlatformPosition;
-
             rb.MovePosition(rb.position + platformDelta);
-
             lastPlatformPosition = currentPlatform.position;
         }
     }
@@ -108,9 +117,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-
         transform.position = respawnPosition;
-
         currentPlatform = null;
     }
 

@@ -3,11 +3,16 @@ using UnityEngine.InputSystem;
 
 public class InteractableObject : MonoBehaviour
 {
+    [Header("Configurações de ID único")]
+    [Tooltip("Dê um nome único para cada um dos objetos-chave (ex: item_01, item_02...)")]
+    public string idUnico;
+
+    [Header("Configurações da Pista")]
     public GameObject planePrefab;
     public float spawnHeight = 2f;
     public float destroyTime = 2f;
 
-    public Transform target; // 🔥 alvo que a seta vai apontar
+    public Transform target; 
 
     private Renderer rend;
     private Color originalColor;
@@ -19,6 +24,7 @@ public class InteractableObject : MonoBehaviour
     {
         rend = GetComponent<Renderer>();
         originalColor = rend.material.color;
+
     }
 
     void Update()
@@ -31,9 +37,13 @@ public class InteractableObject : MonoBehaviour
 
     void Interact()
     {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegistrarItemChave(idUnico);
+        }
+
         Vector3 spawnPosition = transform.position + Vector3.up * spawnHeight;
 
-        // 🔥 calcula direção ignorando altura (Y)
         Vector3 direction = target.position - spawnPosition;
         direction.y = 0;
 
@@ -45,7 +55,6 @@ public class InteractableObject : MonoBehaviour
         }
 
         GameObject plane = Instantiate(planePrefab, spawnPosition, rotation);
-
         Destroy(plane, destroyTime);
     }
 
