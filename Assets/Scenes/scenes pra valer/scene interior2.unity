@@ -479,6 +479,75 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1226454380
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 816335402622584591, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: idDestaPorta
+      value: saida casa para scene 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 816335402622584591, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: idDaPortaDeDestino
+      value: entrada casa para scene 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 816335402622584591, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: nomeDaCenaParaCarregar
+      value: scene2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5066178363612609442, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 5066178363612609442, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5066178363612609442, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 5066178363612609442, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.72219574
+      objectReference: {fileID: 0}
+    - target: {fileID: 5066178363612609442, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5066178363612609442, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.6916888
+      objectReference: {fileID: 0}
+    - target: {fileID: 5066178363612609442, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5066178363612609442, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5066178363612609442, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 447.528
+      objectReference: {fileID: 0}
+    - target: {fileID: 5066178363612609442, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6791003848800574608, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: m_Name
+      value: porta (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
 --- !u!1001 &1693180407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -487,6 +556,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 816335402622584591, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: idDestaPorta
+      value: casa saida casa 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 816335402622584591, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: ehPortaDeSaida
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 816335402622584591, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: idDaPortaDeDestino
+      value: casa entrada casa 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 816335402622584591, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: nomeDaCenaParaCarregar
+      value: scene1
+      objectReference: {fileID: 0}
     - target: {fileID: 5066178363612609442, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.25
@@ -663,7 +748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7135454440831605754, guid: 8461f9fa4649f3d4abf136ed1211296f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.32
+      value: 5.42
       objectReference: {fileID: 0}
     - target: {fileID: 7135454440831605754, guid: 8461f9fa4649f3d4abf136ed1211296f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -671,7 +756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7135454440831605754, guid: 8461f9fa4649f3d4abf136ed1211296f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.04
+      value: -4.54
       objectReference: {fileID: 0}
     - target: {fileID: 7135454440831605754, guid: 8461f9fa4649f3d4abf136ed1211296f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -717,3 +802,4 @@ SceneRoots:
   - {fileID: 398412200384569592}
   - {fileID: 839795032}
   - {fileID: 1693180407}
+  - {fileID: 1226454380}

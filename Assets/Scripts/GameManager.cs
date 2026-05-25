@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
     [HideInInspector] public GameObject playerInstance;
 
-    [Header("Transição de Cenas")]
-    public Vector3 posicaoNoMapaPrincipal;
-    public bool veioDeUmaCasa = false;
+    [Header("Transição de Cenas Inteligente")]
+    [HideInInspector] public string idDaPortaDeDestino;
+    [HideInInspector] public bool veioDeUmaPorta = false;
 
     [Header("Configuração de Design")]
     public int quantidadeObjetosNecessarios = 7;
@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (SceneManager.GetActiveScene().name == "teste menu") return;
+        if (SceneManager.GetActiveScene().name == "testeMenu") return;
     }
 
     private void OnEnable() { SceneManager.sceneLoaded += OnSceneLoaded; }
@@ -49,50 +49,58 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "teste menu") return;
+        if (scene.name == "testeMenu") return;
 
         SpawnOrPositionPlayer();
     }
 
     void SpawnOrPositionPlayer()
     {
-        if (SceneManager.GetActiveScene().name == "teste menu") return;
+        if (SceneManager.GetActiveScene().name == "testeMenu") return;
 
         if (playerInstance == null)
         {
             playerInstance = Instantiate(playerPrefab);
         }
 
-        if (veioDeUmaCasa)
+        Rigidbody rb = playerInstance.GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            Rigidbody rb = playerInstance.GetComponent<Rigidbody>();
-            if (rb != null)
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+
+        if (veioDeUmaPorta && !string.IsNullOrEmpty(idDaPortaDeDestino))
+        {
+            Porta[] todasAsPortas = FindObjectsByType<Porta>(FindObjectsSortMode.None);
+            Porta portaEncontrada = null;
+
+            foreach (Porta p in todasAsPortas)
             {
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
+                if (p.idDestaPorta == idDaPortaDeDestino)
+                {
+                    portaEncontrada = p;
+                    break;
+                }
             }
 
-            playerInstance.transform.position = posicaoNoMapaPrincipal;
-            veioDeUmaCasa = false; 
+            if (portaEncontrada != null)
+            {
+                playerInstance.transform.position = portaEncontrada.ObterPontoDeSpawn();
+                veioDeUmaPorta = false;
+                idDaPortaDeDestino = "";
+                return;
+            }
         }
-        else
+
+        GameObject spawnPoint = GameObject.Find("DefaultSpawnPoint");
+        if (spawnPoint != null)
         {
-            GameObject spawnPoint = GameObject.Find("DefaultSpawnPoint");
-            if (spawnPoint != null)
-            {
-                Rigidbody rb = playerInstance.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.linearVelocity = Vector3.zero;
-                    rb.angularVelocity = Vector3.zero;
-                }
-                playerInstance.transform.position = spawnPoint.transform.position;
-            }
-            else
-            {
-                Debug.LogWarning("Nenhum 'DefaultSpawnPoint' foi encontrado nesta cena de jogo!");
-            }
+            playerInstance.transform.position = spawnPoint.transform.position;
         }
+
+        veioDeUmaPorta = false;
+        idDaPortaDeDestino = "";
     }
 
     public void RegistrarItemChave(string id)
@@ -105,5 +113,6 @@ public class GameManager : MonoBehaviour
 
     public bool JaInteragiuComItem(string id) { return itensFarejados.Contains(id); }
     public bool ForamTodosOsObjetosChave() { return itensFarejados.Count >= quantidadeObjetosNecessarios; }
+
     public int QuantidadeDeItensAchados() { return itensFarejados.Count; }
 }

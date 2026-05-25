@@ -50,12 +50,6 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        if (GameManager.Instance != null && GameManager.Instance.veioDeUmaCasa)
-        {
-            transform.position = GameManager.Instance.posicaoNoMapaPrincipal;
-            GameManager.Instance.veioDeUmaCasa = false; 
-        }
-
         spawnPosition = transform.position;
     }
 

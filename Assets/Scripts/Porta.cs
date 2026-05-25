@@ -6,15 +6,27 @@ public class Porta : MonoBehaviour
 {
     [Header("Configurações da Transição")]
     public string nomeDaCenaParaCarregar;
-    public bool ehPortaDeSaida = false;
 
-    [Header("Configurações de Spawn Fixo")]
+    [Tooltip("Se marcado, o player não precisa apertar 'E'. A transição acontece assim que ele encostar no colisor.")]
+    public bool portaInvisivelAutomatica = false;
+
+    [Header("Sistema de IDs (Multi-Portas)")]
+    [Tooltip("Dê um nome único para ESTA porta da cena atual (Ex: PortaRua_Casa1)")]
+    public string idDestaPorta;
+
+    [Tooltip("ID da porta onde o player vai brotar na PRÓXIMA cena. Deixe EM BRANCO para usar o DefaultSpawnPoint.")]
+    public string idDaPortaDeDestino;
+
+    [Header("Configurações de Spawn")]
+    [Tooltip("Distância à frente da porta (seguindo a seta azul Z do objeto) onde o player vai surgir")]
     public float distanciaAfastamento = 1.5f;
 
     private bool playerNearby = false;
 
     void Update()
     {
+        if (portaInvisivelAutomatica) return;
+
         if (playerNearby && Keyboard.current.eKey.wasPressedThisFrame)
         {
             EntrarOuSair();
@@ -25,18 +37,17 @@ public class Porta : MonoBehaviour
     {
         if (GameManager.Instance == null) return;
 
-        if (!ehPortaDeSaida)
-        {
-            Vector3 pontoDeRetornoParaRua = transform.position + (transform.forward * distanciaAfastamento);
-            pontoDeRetornoParaRua.y = transform.position.y;
-
-            GameManager.Instance.posicaoNoMapaPrincipal = pontoDeRetornoParaRua;
-        }
-
-        GameManager.Instance.veioDeUmaCasa = true;
-
+        GameManager.Instance.idDaPortaDeDestino = idDaPortaDeDestino;
+        GameManager.Instance.veioDeUmaPorta = true;
 
         SceneManager.LoadScene(nomeDaCenaParaCarregar);
+    }
+
+    public Vector3 ObterPontoDeSpawn()
+    {
+        Vector3 ponto = transform.position + (transform.forward * distanciaAfastamento);
+        ponto.y = transform.position.y; 
+        return ponto;
     }
 
     void OnTriggerEnter(Collider other)
@@ -44,6 +55,11 @@ public class Porta : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNearby = true;
+
+            if (portaInvisivelAutomatica)
+            {
+                EntrarOuSair();
+            }
         }
     }
 
@@ -58,8 +74,6 @@ public class Porta : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Vector3 pontoVisual = transform.position + (transform.forward * distanciaAfastamento);
-        pontoVisual.y = transform.position.y;
-        Gizmos.DrawSphere(pontoVisual, 0.3f);
+        Gizmos.DrawSphere(ObterPontoDeSpawn(), 0.3f);
     }
 }
