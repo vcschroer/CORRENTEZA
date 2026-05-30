@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
         }
 
+        GameObject spawnPoint = GameObject.Find("DefaultSpawnPoint");
         if (veioDeUmaPorta && !string.IsNullOrEmpty(idDaPortaDeDestino))
         {
             Porta[] todasAsPortas = FindObjectsByType<Porta>(FindObjectsSortMode.None);
@@ -87,13 +88,15 @@ public class GameManager : MonoBehaviour
             if (portaEncontrada != null)
             {
                 playerInstance.transform.position = portaEncontrada.ObterPontoDeSpawn();
+                Debug.Log(portaEncontrada.ObterPontoDeSpawn());
+                spawnPoint.transform.position = portaEncontrada.ObterPontoDeSpawn();
                 veioDeUmaPorta = false;
                 idDaPortaDeDestino = "";
                 return;
             }
         }
 
-        GameObject spawnPoint = GameObject.Find("DefaultSpawnPoint");
+        
         if (spawnPoint != null)
         {
             playerInstance.transform.position = spawnPoint.transform.position;

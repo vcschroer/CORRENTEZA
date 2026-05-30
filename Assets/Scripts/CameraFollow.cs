@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -6,9 +7,13 @@ public class CameraFollow : MonoBehaviour
     public Vector3 offset = new Vector3(0, 10, -6);
     public float smoothSpeed = 5f;
 
+    string nomeScene;
+
+
     void Start()
     {
         FindPlayerTarget();
+        nomeScene = SceneManager.GetActiveScene().name;
     }
 
     void LateUpdate()
@@ -24,7 +29,15 @@ public class CameraFollow : MonoBehaviour
 
         transform.position = smoothedPosition;
 
-        transform.rotation = Quaternion.Euler(60f, 0f, 0f);
+        if (nomeScene.ToLower().Contains("interior"))
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(60f, 0f, 0f);
+        }
+
     }
 
     void FindPlayerTarget()

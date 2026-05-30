@@ -270,7 +270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   target: {fileID: 0}
-  offset: {x: 0, y: 10, z: -6}
+  offset: {x: 0, y: 2, z: -9}
   smoothSpeed: 5
 --- !u!1 &410087039
 GameObject:
@@ -495,6 +495,10 @@ PrefabInstance:
       propertyPath: idDaPortaDeDestino
       value: entrada 2 casa 4
       objectReference: {fileID: 0}
+    - target: {fileID: 816335402622584591, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: nomeDaCenaParaCarregar
+      value: scene3
+      objectReference: {fileID: 0}
     - target: {fileID: 5066178363612609442, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.76
@@ -559,6 +563,10 @@ PrefabInstance:
     - target: {fileID: 816335402622584591, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
       propertyPath: idDaPortaDeDestino
       value: entrada casa 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 816335402622584591, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: nomeDaCenaParaCarregar
+      value: scene3
       objectReference: {fileID: 0}
     - target: {fileID: 5066178363612609442, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
       propertyPath: m_LocalPosition.x

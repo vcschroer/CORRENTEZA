@@ -22,6 +22,13 @@ public class Porta : MonoBehaviour
     public float distanciaAfastamento = 1.5f;
 
     private bool playerNearby = false;
+    private float tempoBloqueio = 1f;
+    private bool podeUsar = false;
+
+    void Start()
+    {
+        Invoke(nameof(LiberarUso), tempoBloqueio);
+    }
 
     void Update()
     {
@@ -52,6 +59,8 @@ public class Porta : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (!podeUsar) return;
+
         if (other.CompareTag("Player"))
         {
             playerNearby = true;
@@ -75,5 +84,10 @@ public class Porta : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(ObterPontoDeSpawn(), 0.3f);
+    }
+
+    void LiberarUso()//liberar uso da porta automatica
+    {
+        podeUsar = true;
     }
 }

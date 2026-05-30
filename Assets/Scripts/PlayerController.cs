@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private bool isGrounded;
+
+    string nomeScene;
 
     public bool boia
     {
@@ -51,6 +54,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         spawnPosition = transform.position;
+
     }
 
     void FixedUpdate()
@@ -66,7 +70,16 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y).normalized;
+        nomeScene = SceneManager.GetActiveScene().name;
+        Vector3 movement;
+        if (nomeScene.ToLower().Contains("interior"))
+        {
+            movement = new Vector3(moveInput.x, 0, 0).normalized;
+        }
+        else
+        {
+            movement = new Vector3(moveInput.x, 0, moveInput.y).normalized;
+        }
 
         Vector3 targetVelocity = movement * speed;
         Vector3 currentVelocity = rb.linearVelocity;
@@ -111,6 +124,13 @@ public class PlayerController : MonoBehaviour
     {
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+
+        GameObject spawnPoint = GameObject.Find("DefaultSpawnPoint");
+        if (spawnPoint != null)
+        {
+            respawnPosition = spawnPoint.transform.position;
+        }
+
         transform.position = respawnPosition;
         currentPlatform = null;
     }
