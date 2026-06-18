@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f189c6dc40278ba4496eb24409a66037
+guid: 32cf20dc35c16094084e98a6c03daf91
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "ITENS_FAREJ\xC1VEIS_0"
+      name: "ITENS_FAREJ\xC1VEIS 1_0"
       rect:
         serializedVersion: 2
         x: 0
@@ -112,14 +112,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e796aad288546740aa885a83566fb89
-      internalID: 1480595026
+      spriteID: 8e19d659fab07a74b88038b6c8f16109
+      internalID: 219378684
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "ITENS_FAREJ\xC1VEIS_1"
+      name: "ITENS_FAREJ\xC1VEIS 1_1"
       rect:
         serializedVersion: 2
         x: 45
@@ -134,14 +134,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e752cd3c4c552b44e8a7201f81f69238
-      internalID: 72097340
+      spriteID: e1b65a2e79d2ff541b725e5ed45dc589
+      internalID: 573858737
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "ITENS_FAREJ\xC1VEIS_2"
+      name: "ITENS_FAREJ\xC1VEIS 1_2"
       rect:
         serializedVersion: 2
         x: 90
@@ -156,14 +156,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 201c26f4f17b0d240b61e8b1d5e2dcf0
-      internalID: -959783584
+      spriteID: 7f07496a5e4ccec449f3fb8ca1ffd730
+      internalID: -1464835200
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "ITENS_FAREJ\xC1VEIS_3"
+      name: "ITENS_FAREJ\xC1VEIS 1_3"
       rect:
         serializedVersion: 2
         x: 135
@@ -178,14 +178,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8d02a046ccc5fb408a51acd111b4099
-      internalID: -564200069
+      spriteID: 23d29f582e21f0f429e01cbf7af7cf9c
+      internalID: -116420939
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "ITENS_FAREJ\xC1VEIS_4"
+      name: "ITENS_FAREJ\xC1VEIS 1_4"
       rect:
         serializedVersion: 2
         x: 0
@@ -200,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 12f6981aaefd7e14bb4695edc5deacb3
-      internalID: -1367672836
+      spriteID: 2bb86da7ba67ad24faeca0a322e02390
+      internalID: 2106046776
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "ITENS_FAREJ\xC1VEIS_5"
+      name: "ITENS_FAREJ\xC1VEIS 1_5"
       rect:
         serializedVersion: 2
         x: 45
@@ -222,14 +222,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 062102990a6039343ad302bd96ca3926
-      internalID: -1340784018
+      spriteID: b1f852094e456fb41b80c4858227beea
+      internalID: -1779217314
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "ITENS_FAREJ\xC1VEIS_6"
+      name: "ITENS_FAREJ\xC1VEIS 1_6"
       rect:
         serializedVersion: 2
         x: 90
@@ -244,14 +244,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fbd3458b81aa6714899ec196efcb2976
-      internalID: 1244459445
+      spriteID: 33cec7f2a65c9f445b645902404e5d52
+      internalID: 1805959288
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "ITENS_FAREJ\xC1VEIS_7"
+      name: "ITENS_FAREJ\xC1VEIS 1_7"
       rect:
         serializedVersion: 2
         x: 135
@@ -266,8 +266,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7d72fbacac9444141a92b5f80e0f0169
-      internalID: -2129263236
+      spriteID: d95bc3802aebbee4ca6912ad8bd9fcec
+      internalID: -1321534545
       vertices: []
       indices: 
       edges: []
@@ -276,7 +276,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 28113e7f9c99984499319fe8cef5e8be
+    spriteID: ca1ef88c9e5e20c4c924afd638b4cef0
     internalID: 0
     vertices: []
     indices: 
@@ -288,14 +288,14 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":45.0,"y":42.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      "ITENS_FAREJ\xC1VEIS_0": 1480595026
-      "ITENS_FAREJ\xC1VEIS_1": 72097340
-      "ITENS_FAREJ\xC1VEIS_2": -959783584
-      "ITENS_FAREJ\xC1VEIS_3": -564200069
-      "ITENS_FAREJ\xC1VEIS_4": -1367672836
-      "ITENS_FAREJ\xC1VEIS_5": -1340784018
-      "ITENS_FAREJ\xC1VEIS_6": 1244459445
-      "ITENS_FAREJ\xC1VEIS_7": -2129263236
+      "ITENS_FAREJ\xC1VEIS 1_0": 219378684
+      "ITENS_FAREJ\xC1VEIS 1_1": 573858737
+      "ITENS_FAREJ\xC1VEIS 1_2": -1464835200
+      "ITENS_FAREJ\xC1VEIS 1_3": -116420939
+      "ITENS_FAREJ\xC1VEIS 1_4": 2106046776
+      "ITENS_FAREJ\xC1VEIS 1_5": -1779217314
+      "ITENS_FAREJ\xC1VEIS 1_6": 1805959288
+      "ITENS_FAREJ\xC1VEIS 1_7": -1321534545
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
