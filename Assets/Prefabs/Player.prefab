@@ -105,6 +105,14 @@ MonoBehaviour:
   sleeping: 1
   isInWater: 0
   shadow: {fileID: 5583582241242483099}
+  jumpSound: {fileID: 8300000, guid: 3e570be6a38b9fd489b6a8d03b4d0497, type: 3}
+  sfxMixerGroup: {fileID: -2590684932284328806, guid: 94a158c60fc9aa74c95b63850dcbacdd, type: 2}
+  defaultFootstepSound: {fileID: 8300000, guid: 771bb062acd562c48a3b49579134d99b, type: 3}
+  waterFootstepSound1: {fileID: 8300000, guid: bd041be9315956b4580ae04ebdda57e6, type: 3}
+  waterFootstepSound2: {fileID: 8300000, guid: 779c4b89ad161ce4f8c5ba30b7d4cd60, type: 3}
+  footstepInterval: 0.25
+  waterFootstepInterval: 0.35
+  idleSound: {fileID: 8300000, guid: 3c3b5f9f74beef645b53338652a418cc, type: 3}
 --- !u!1 &5583582241242483099
 GameObject:
   m_ObjectHideFlags: 0
