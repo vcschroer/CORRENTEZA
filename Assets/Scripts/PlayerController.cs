@@ -12,14 +12,12 @@ public class PlayerController : MonoBehaviour
     public float fallLimit = -10f;
     public Vector3 playerInitialPosition;
     private int lastDirection = 0;
-
     private Rigidbody rb;
     private bool isGrounded;
     public bool isJumping;
     public bool playingJumpAnim = false;
     public bool sleeping = true;
     public bool isInWater = false;
-
     string nomeScene;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
@@ -28,6 +26,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Som")]
     public AudioClip jumpSound;
+    public AudioClip jumpBark1;
+    public AudioClip jumpBark2;
     public AudioMixerGroup sfxMixerGroup;
     private AudioSource audioSource;
     private AudioListener audioListener;
@@ -36,14 +36,11 @@ public class PlayerController : MonoBehaviour
     public AudioClip defaultFootstepSound;
     public AudioClip waterFootstepSound1;
     public AudioClip waterFootstepSound2;
-
     [Range(0.1f, 1f)]
     public float footstepInterval = 0.25f;
     public float waterFootstepInterval = 0.45f;
-
     private float footstepTimer = 0f;
     private bool lastWaterSoundWas1 = true;
-
     private AudioClip currentFootstepClip;
 
     public bool boia
@@ -54,9 +51,7 @@ public class PlayerController : MonoBehaviour
 
     private PlayerInputActions inputActions;
     private Vector2 moveInput;
-
     private Vector3 spawnPosition;
-
     private Transform currentPlatform;
     private Vector3 lastPlatformPosition;
 
@@ -89,8 +84,8 @@ public class PlayerController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
         audioListener = GetComponent<AudioListener>();
+
         if (audioListener == null)
             audioListener = gameObject.AddComponent<AudioListener>();
 
@@ -121,7 +116,6 @@ public class PlayerController : MonoBehaviour
         spawnPosition = transform.position;
         shadowDefaultRotation = shadow.transform.localRotation;
         playerInitialPosition = transform.position;
-
         StartCoroutine(WakeUp());
     }
 
@@ -141,9 +135,11 @@ public class PlayerController : MonoBehaviour
         int direction;
         nomeScene = SceneManager.GetActiveScene().name;
         Vector3 movement;
+
         if (nomeScene.ToLower().Contains("interior"))
         {
             movement = new Vector3(moveInput.x, 0, 0).normalized;
+
             if (sleeping)
             {
                 animator.SetInteger("Direction", 12);//dormindo
@@ -173,7 +169,6 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-
             direction = animator.GetInteger("Direction");
             if (movement.x != 0 && direction != 12)
             {
@@ -183,6 +178,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             movement = new Vector3(moveInput.x, 0, moveInput.y).normalized;
+
             if (movement.sqrMagnitude < 0.01f && !isJumping)
             {
                 animator.SetInteger("Direction", 0); // Idle
@@ -215,8 +211,6 @@ public class PlayerController : MonoBehaviour
             }
             else if (!playingJumpAnim)
             {
-                //colocar mais um if/else aqui para a animacao de pulo para baixo assim q ela estiver disponivel
-
                 animator.SetInteger("Direction", 2); // Down
                 lastDirection = 2;
             }
@@ -225,26 +219,15 @@ public class PlayerController : MonoBehaviour
             {
                 switch (lastDirection)
                 {
-                    case 1:
-                        animator.SetInteger("Direction", 5); // IdleUp
-                        break;
-                    case 2:
-                        animator.SetInteger("Direction", 0); // IdleDown
-                        break;
-                    case 3:
-                        animator.SetInteger("Direction", 4); // IdleSide
-                        break;
-                    case 6:
-                        animator.SetInteger("Direction", 4);
-                        break;
-                    case 7:
-                        animator.SetInteger("Direction", 5);
-                        break;
-                    case 8:
-                        animator.SetInteger("Direction", 0);
-                        break;
+                    case 1: animator.SetInteger("Direction", 5); break; // IdleUp
+                    case 2: animator.SetInteger("Direction", 0); break; // IdleDown
+                    case 3: animator.SetInteger("Direction", 4); break; // IdleSide
+                    case 6: animator.SetInteger("Direction", 4); break;
+                    case 7: animator.SetInteger("Direction", 5); break;
+                    case 8: animator.SetInteger("Direction", 0); break;
                 }
             }
+
             if (movement.x != 0)
             {
                 spriteRenderer.flipX = movement.x < 0;
@@ -252,17 +235,16 @@ public class PlayerController : MonoBehaviour
         }
 
         direction = animator.GetInteger("Direction");
+
         if (direction != 12)// se n ta dormindo, pode andar
         {
             Vector3 targetVelocity = movement * speed;
             Vector3 currentVelocity = rb.linearVelocity;
-
             Vector3 velocityChange = new Vector3(
                 targetVelocity.x - currentVelocity.x,
                 0,
                 targetVelocity.z - currentVelocity.z
             );
-
             rb.AddForce(velocityChange, ForceMode.VelocityChange);
         }
 
@@ -271,9 +253,7 @@ public class PlayerController : MonoBehaviour
             if (movement.sqrMagnitude > 0.01f)
             {
                 float currentInterval = isInWater ? waterFootstepInterval : footstepInterval;
-
                 footstepTimer += Time.deltaTime;
-
                 if (footstepTimer >= currentInterval)
                 {
                     PlayFootstepSound();
@@ -313,9 +293,7 @@ public class PlayerController : MonoBehaviour
     private void PlayFootstepSound()
     {
         if (audioSource == null) return;
-
         currentFootstepClip = GetFootstepClipBySurface();
-
         if (currentFootstepClip != null)
         {
             audioSource.PlayOneShot(currentFootstepClip);
@@ -327,10 +305,8 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, out RaycastHit hit, 1.5f))
         {
             string tag = hit.collider.tag;
-
             if (tag == "Water")
             {
-                // Alterna entre os dois sons de água
                 if (lastWaterSoundWas1)
                 {
                     lastWaterSoundWas1 = false;
@@ -347,7 +323,6 @@ public class PlayerController : MonoBehaviour
                 return defaultFootstepSound;
             }
         }
-
         return defaultFootstepSound;
     }
 
@@ -369,9 +344,22 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isJumping = true;
 
-            if (jumpSound != null && audioSource != null)
+            if (audioSource != null)
             {
-                audioSource.PlayOneShot(jumpSound);
+                if (jumpSound != null)
+                {
+                    audioSource.PlayOneShot(jumpSound);
+                }
+
+                if (Random.value <= 0.10f)
+                {
+                    AudioClip specialSound = Random.value < 0.5f ? jumpBark1 : jumpBark2;
+
+                    if (specialSound != null)
+                    {
+                        audioSource.PlayOneShot(specialSound);
+                    }
+                }
             }
         }
     }
@@ -388,13 +376,11 @@ public class PlayerController : MonoBehaviour
     {
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-
         GameObject spawnPoint = GameObject.Find("DefaultSpawnPoint");
         if (spawnPoint != null)
         {
             respawnPosition = spawnPoint.transform.position;
         }
-
         transform.position = respawnPosition;
         currentPlatform = null;
     }
@@ -412,6 +398,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
@@ -424,6 +411,7 @@ public class PlayerController : MonoBehaviour
             currentPlatform = null;
         }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         isJumping = false;

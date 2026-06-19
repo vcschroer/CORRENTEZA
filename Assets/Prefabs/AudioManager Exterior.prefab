@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8580016213912957175}
+  - component: {fileID: 1753153697358238245}
   m_Layer: 0
-  m_Name: AudioManager
+  m_Name: AudioManager Exterior
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,6 +34,28 @@ Transform:
   - {fileID: 4906554107780128895}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1753153697358238245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710207777780954550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce4ffa9095d2fb741a972a8c33ffa5c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  enableAmbientSounds: 1
+  ambulanciaSound: {fileID: 8300000, guid: bdbd4fbeac8f63849833febaea05c5ba, type: 3}
+  helicopteroSound: {fileID: 8300000, guid: 72e08230b3fbd774d93a175c4af9ca51, type: 3}
+  minInterval: 60
+  maxInterval: 120
+  chanceAmbulancia: 0.5
+  chanceHelicoptero: 0.5
+  ambientMixerGroup: {fileID: -2590684932284328806, guid: 94a158c60fc9aa74c95b63850dcbacdd, type: 2}
+  volume: 1
+  spatialBlend: 1
 --- !u!1 &5498632454342086996
 GameObject:
   m_ObjectHideFlags: 0

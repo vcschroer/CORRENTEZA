@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5173252970338854597}
   - component: {fileID: 8681428774708688163}
   - component: {fileID: 7834160142434822776}
+  - component: {fileID: -5321464364185529754}
   m_Layer: 6
   m_Name: Platform
   m_TagString: MovingPlatform
@@ -112,6 +113,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-5321464364185529754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9006087758207178811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4730a4133ac05814eb7df274b769a00e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CarAlarmOnTouch
+  carAlarmSound: {fileID: 8300000, guid: feb692f780cc26d498953df939d886d0, type: 3}
+  chanceToTrigger: 0.2
+  cooldownTime: 10
+  sfxMixerGroup: {fileID: -2590684932284328806, guid: 94a158c60fc9aa74c95b63850dcbacdd, type: 2}
+  volume: 1
+  spatialBlend: 1
 --- !u!1001 &4460320146865242801
 PrefabInstance:
   m_ObjectHideFlags: 0
