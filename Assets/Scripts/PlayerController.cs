@@ -399,38 +399,10 @@ public class PlayerController : MonoBehaviour
         currentPlatform = null;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Water"))
-        {
-            isInWater = true;
-            isGrounded = true;
-            isJumping = false;
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Water"))
-        {
-            isInWater = true;
-            isGrounded = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Water"))
-        {
-            isInWater = false;
-        }
-    }
-
     void OnCollisionStay(Collision collision)
     {
         isGrounded = true;
         playerInitialPosition = transform.position;
-
         if (collision.gameObject.CompareTag("MovingPlatform"))
         {
             if (currentPlatform != collision.transform)
@@ -440,13 +412,33 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
     void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            isInWater = false;
+        }
         if (collision.gameObject.CompareTag("MovingPlatform"))
         {
             currentPlatform = null;
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        isJumping = false;
+        playingJumpAnim = false;
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            if (boia || nomeScene.ToLower().Contains("interior"))
+            {
+                isGrounded = true;
+                isInWater = true;
+            }
+            else
+            {
+                Die(spawnPosition);
+            }
         }
     }
 
