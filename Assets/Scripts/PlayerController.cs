@@ -201,7 +201,7 @@ public class PlayerController : MonoBehaviour
                 if (isJumping)
                 {
                     animator.SetInteger("Direction", 7);//up jump
-                    lastDirection = 6;
+                    lastDirection = 7;
                 }
                 else
                 {
@@ -211,8 +211,16 @@ public class PlayerController : MonoBehaviour
             }
             else if (!playingJumpAnim)
             {
-                animator.SetInteger("Direction", 2); // Down
-                lastDirection = 2;
+                if (isJumping)
+                {
+                    animator.SetInteger("Direction", 8);//down jump
+                    lastDirection = 8;
+                }
+                else
+                {
+                    animator.SetInteger("Direction", 2); // Down
+                    lastDirection = 2;
+                }
             }
 
             if (movement.sqrMagnitude < 0.01f && !isJumping)

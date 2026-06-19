@@ -184,6 +184,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 840345742991720268, guid: 58288243d781d94499108890ca4c0bca, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4652222745530953277, guid: 58288243d781d94499108890ca4c0bca, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -443,7 +447,7 @@ GameObject:
   - component: {fileID: 870100682}
   m_Layer: 6
   m_Name: ground
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1333,7 +1337,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 488107874940624771, guid: fe84d696f94fda34a81b3da0a91daf01, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.156
+      value: 0.206
       objectReference: {fileID: 0}
     - target: {fileID: 732925875753624786, guid: fe84d696f94fda34a81b3da0a91daf01, type: 3}
       propertyPath: m_Layer
@@ -1389,7 +1393,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6042422582401525206, guid: fe84d696f94fda34a81b3da0a91daf01, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.142
+      value: 0.192
       objectReference: {fileID: 0}
     - target: {fileID: 6177061822600017228, guid: fe84d696f94fda34a81b3da0a91daf01, type: 3}
       propertyPath: m_Layer
@@ -1530,7 +1534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7135454440831605754, guid: 8461f9fa4649f3d4abf136ed1211296f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.56
+      value: -0.36
       objectReference: {fileID: 0}
     - target: {fileID: 7135454440831605754, guid: 8461f9fa4649f3d4abf136ed1211296f, type: 3}
       propertyPath: m_LocalPosition.z
