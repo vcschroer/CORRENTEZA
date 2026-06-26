@@ -2749,8 +2749,8 @@
     "m_ShaderOutputName": "Tiling",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 10.0,
-        "y": 10.0
+        "x": 70.0,
+        "y": 70.0
     },
     "m_DefaultValue": {
         "x": 1.0,
@@ -2818,8 +2818,8 @@
     "m_ObjectId": "a0fca7f23fed4db18471682a3dd547b8",
     "m_Title": "Animação",
     "m_Position": {
-        "x": -2074.0,
-        "y": 360.0
+        "x": -2073.999755859375,
+        "y": 359.99993896484377
     }
 }
 
@@ -3199,7 +3199,7 @@
     "m_ObjectId": "be4b101a6aed41448fbcaba4e4e08664",
     "m_Title": "Posição",
     "m_Position": {
-        "x": -2446.0,
+        "x": -2445.999755859375,
         "y": -101.0
     }
 }

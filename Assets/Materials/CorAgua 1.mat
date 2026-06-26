@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CorAgua
-  m_Shader: {fileID: -6465566751694194690, guid: d72070fc2b914ff4bb399b4acb010bd0, type: 3}
-  m_Parent: {fileID: 2100000, guid: 869e70964773d494c9e111817e98a412, type: 2}
+  m_Name: CorAgua 1
+  m_Shader: {fileID: -6465566751694194690, guid: fc37b252a6540134f90ce6fb5e17eda7, type: 3}
+  m_Parent: {fileID: 2100000, guid: c073260b86fd27040b40d258a3d23739, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
