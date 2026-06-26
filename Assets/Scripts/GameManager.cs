@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
 
     private HashSet<string> itensFarejados = new HashSet<string>();
 
+    private Coroutine positionRoutine;
+
     private void Awake()
     {
         if (Instance == null)
@@ -66,7 +68,9 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "testeMenu") return;
 
-        if (playerInstance == null)
+        bool isFirstSpawn = playerInstance == null;
+
+        if (isFirstSpawn)
         {
             playerInstance = Instantiate(playerPrefab);
             playerInstance.SetActive(false);
@@ -84,7 +88,13 @@ public class GameManager : MonoBehaviour
         if (spawnPoint == null)
         {
             Debug.LogWarning("DefaultSpawnPoint não encontrado!");
+            if (!isFirstSpawn) playerInstance.SetActive(true);
             return;
+        }
+
+        if (positionRoutine != null)
+        {
+            StopCoroutine(positionRoutine);
         }
 
         if (veioDeUmaPorta && !string.IsNullOrEmpty(idDaPortaDeDestino))
@@ -97,9 +107,9 @@ public class GameManager : MonoBehaviour
                 {
                     Vector3 pos = p.ObterPontoDeSpawn();
 
-                    StartCoroutine(ForcePositionAfterDelay(pos));
-
                     spawnPoint.transform.position = pos;
+
+                    positionRoutine = StartCoroutine(ForcePositionAfterDelay(pos));
 
                     veioDeUmaPorta = false;
                     idDaPortaDeDestino = "";
@@ -109,7 +119,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        StartCoroutine(ForcePositionAfterDelay(spawnPoint.transform.position));
+        positionRoutine = StartCoroutine(ForcePositionAfterDelay(spawnPoint.transform.position));
 
         veioDeUmaPorta = false;
         idDaPortaDeDestino = "";
@@ -117,10 +127,6 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ForcePositionAfterDelay(Vector3 pos)
     {
-        yield return null;
-        yield return null;
-        yield return null;
-
         if (playerInstance != null)
         {
             playerInstance.transform.position = pos;
@@ -130,6 +136,7 @@ public class GameManager : MonoBehaviour
             {
                 rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
+                rb.position = pos;
             }
 
             playerInstance.SetActive(true);
@@ -140,6 +147,10 @@ public class GameManager : MonoBehaviour
                 " Z=" + pos.z
             );
         }
+
+        yield return new WaitForFixedUpdate();
+
+        positionRoutine = null;
     }
 
     public void RegistrarItemChave(string id)

@@ -1,5 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -11,19 +12,36 @@ public class PlayerController : MonoBehaviour
     public float fallLimit = -10f;
     public Vector3 playerInitialPosition;
     private int lastDirection = 0;
-
     private Rigidbody rb;
     private bool isGrounded;
     public bool isJumping;
     public bool playingJumpAnim = false;
     public bool sleeping = true;
     public bool isInWater = false;
-
     string nomeScene;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject shadow;
     private Quaternion shadowDefaultRotation;
+
+    [Header("Som")]
+    public AudioClip jumpSound;
+    public AudioClip jumpBark1;
+    public AudioClip jumpBark2;
+    public AudioMixerGroup sfxMixerGroup;
+    private AudioSource audioSource;
+    private AudioListener audioListener;
+
+    [Header("Sons de Passos")]
+    public AudioClip defaultFootstepSound;
+    public AudioClip waterFootstepSound1;
+    public AudioClip waterFootstepSound2;
+    [Range(0.1f, 1f)]
+    public float footstepInterval = 0.25f;
+    public float waterFootstepInterval = 0.45f;
+    private float footstepTimer = 0f;
+    private bool lastWaterSoundWas1 = true;
+    private AudioClip currentFootstepClip;
 
     public bool boia
     {
@@ -33,25 +51,53 @@ public class PlayerController : MonoBehaviour
 
     private PlayerInputActions inputActions;
     private Vector2 moveInput;
-
     private Vector3 spawnPosition;
-
     private Transform currentPlatform;
     private Vector3 lastPlatformPosition;
 
     void Awake()
     {
         inputActions = new PlayerInputActions();
-
         inputActions.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         inputActions.Player.Move.canceled += ctx => moveInput = Vector2.zero;
-
         inputActions.Player.Jump.performed += ctx => Jump();
 
-        DontDestroyOnLoad(gameObject);
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
 
+        if (sfxMixerGroup != null)
+        {
+            audioSource.outputAudioMixerGroup = sfxMixerGroup;
+        }
+        else
+        {
+            Debug.LogWarning("SFX Mixer Group não foi atribuído no Inspector!");
+        }
+
+        audioSource.playOnAwake = false;
+        audioSource.loop = false;
+        audioSource.spatialBlend = 0f;
+
+        DontDestroyOnLoad(gameObject);
         animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        audioListener = GetComponent<AudioListener>();
+
+        if (audioListener == null)
+            audioListener = gameObject.AddComponent<AudioListener>();
+
+        AudioListener[] listeners = FindObjectsByType<AudioListener>(FindObjectsSortMode.None);
+        if (listeners.Length > 1)
+        {
+            foreach (var listener in listeners)
+            {
+                if (listener != audioListener)
+                    Destroy(listener);
+            }
+        }
     }
 
     void OnEnable()
@@ -70,7 +116,6 @@ public class PlayerController : MonoBehaviour
         spawnPosition = transform.position;
         shadowDefaultRotation = shadow.transform.localRotation;
         playerInitialPosition = transform.position;
-
         StartCoroutine(WakeUp());
     }
 
@@ -90,9 +135,11 @@ public class PlayerController : MonoBehaviour
         int direction;
         nomeScene = SceneManager.GetActiveScene().name;
         Vector3 movement;
+
         if (nomeScene.ToLower().Contains("interior"))
         {
             movement = new Vector3(moveInput.x, 0, 0).normalized;
+
             if (sleeping)
             {
                 animator.SetInteger("Direction", 12);//dormindo
@@ -122,7 +169,6 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-
             direction = animator.GetInteger("Direction");
             if (movement.x != 0 && direction != 12)
             {
@@ -132,6 +178,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             movement = new Vector3(moveInput.x, 0, moveInput.y).normalized;
+
             if (movement.sqrMagnitude < 0.01f && !isJumping)
             {
                 animator.SetInteger("Direction", 0); // Idle
@@ -154,7 +201,7 @@ public class PlayerController : MonoBehaviour
                 if (isJumping)
                 {
                     animator.SetInteger("Direction", 7);//up jump
-                    lastDirection = 6;
+                    lastDirection = 7;
                 }
                 else
                 {
@@ -164,36 +211,31 @@ public class PlayerController : MonoBehaviour
             }
             else if (!playingJumpAnim)
             {
-                //colocar mais um ifelse aqui para a animacao de pulo para baixo assim q ela estiver disponivel
-
-                animator.SetInteger("Direction", 2); // Down
-                lastDirection = 2;
+                if (isJumping)
+                {
+                    animator.SetInteger("Direction", 8);//down jump
+                    lastDirection = 8;
+                }
+                else
+                {
+                    animator.SetInteger("Direction", 2); // Down
+                    lastDirection = 2;
+                }
             }
 
             if (movement.sqrMagnitude < 0.01f && !isJumping)
             {
                 switch (lastDirection)
                 {
-                    case 1:
-                        animator.SetInteger("Direction", 5); // IdleUp
-                        break;
-                    case 2:
-                        animator.SetInteger("Direction", 0); // IdleDown
-                        break;
-                    case 3:
-                        animator.SetInteger("Direction", 4); // IdleSide
-                        break;
-                    case 6:
-                        animator.SetInteger("Direction", 4);
-                        break;
-                    case 7:
-                        animator.SetInteger("Direction", 5);
-                        break;
-                    case 8:
-                        animator.SetInteger("Direction", 0);
-                        break;
+                    case 1: animator.SetInteger("Direction", 5); break; // IdleUp
+                    case 2: animator.SetInteger("Direction", 0); break; // IdleDown
+                    case 3: animator.SetInteger("Direction", 4); break; // IdleSide
+                    case 6: animator.SetInteger("Direction", 4); break;
+                    case 7: animator.SetInteger("Direction", 5); break;
+                    case 8: animator.SetInteger("Direction", 0); break;
                 }
             }
+
             if (movement.x != 0)
             {
                 spriteRenderer.flipX = movement.x < 0;
@@ -201,18 +243,39 @@ public class PlayerController : MonoBehaviour
         }
 
         direction = animator.GetInteger("Direction");
-        if(direction != 12)// se n ta dormindo, pode andar
+
+        if (direction != 12)// se n ta dormindo, pode andar
         {
             Vector3 targetVelocity = movement * speed;
             Vector3 currentVelocity = rb.linearVelocity;
-
             Vector3 velocityChange = new Vector3(
                 targetVelocity.x - currentVelocity.x,
                 0,
                 targetVelocity.z - currentVelocity.z
             );
-
             rb.AddForce(velocityChange, ForceMode.VelocityChange);
+        }
+
+        if (isGrounded && !isJumping && !sleeping)
+        {
+            if (movement.sqrMagnitude > 0.01f)
+            {
+                float currentInterval = isInWater ? waterFootstepInterval : footstepInterval;
+                footstepTimer += Time.deltaTime;
+                if (footstepTimer >= currentInterval)
+                {
+                    PlayFootstepSound();
+                    footstepTimer = 0f;
+                }
+            }
+            else
+            {
+                footstepTimer = 0f;
+            }
+        }
+        else
+        {
+            footstepTimer = 0f;
         }
 
         if (nomeScene.ToLower().Contains("interior"))
@@ -235,6 +298,42 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void PlayFootstepSound()
+    {
+        if (audioSource == null) return;
+        currentFootstepClip = GetFootstepClipBySurface();
+        if (currentFootstepClip != null)
+        {
+            audioSource.PlayOneShot(currentFootstepClip);
+        }
+    }
+
+    private AudioClip GetFootstepClipBySurface()
+    {
+        if (Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, out RaycastHit hit, 1.5f))
+        {
+            string tag = hit.collider.tag;
+            if (tag == "Water")
+            {
+                if (lastWaterSoundWas1)
+                {
+                    lastWaterSoundWas1 = false;
+                    return waterFootstepSound2 != null ? waterFootstepSound2 : waterFootstepSound1;
+                }
+                else
+                {
+                    lastWaterSoundWas1 = true;
+                    return waterFootstepSound1 != null ? waterFootstepSound1 : defaultFootstepSound;
+                }
+            }
+            else
+            {
+                return defaultFootstepSound;
+            }
+        }
+        return defaultFootstepSound;
+    }
+
     void ApplyPlatformMovement()
     {
         if (currentPlatform != null)
@@ -252,6 +351,24 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isJumping = true;
+
+            if (audioSource != null)
+            {
+                if (jumpSound != null)
+                {
+                    audioSource.PlayOneShot(jumpSound);
+                }
+
+                if (Random.value <= 0.10f)
+                {
+                    AudioClip specialSound = Random.value < 0.5f ? jumpBark1 : jumpBark2;
+
+                    if (specialSound != null)
+                    {
+                        audioSource.PlayOneShot(specialSound);
+                    }
+                }
+            }
         }
     }
 
@@ -267,13 +384,11 @@ public class PlayerController : MonoBehaviour
     {
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-
         GameObject spawnPoint = GameObject.Find("DefaultSpawnPoint");
         if (spawnPoint != null)
         {
             respawnPosition = spawnPoint.transform.position;
         }
-
         transform.position = respawnPosition;
         currentPlatform = null;
     }
@@ -282,7 +397,6 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = true;
         playerInitialPosition = transform.position;
-
         if (collision.gameObject.CompareTag("MovingPlatform"))
         {
             if (currentPlatform != collision.transform)
@@ -300,7 +414,6 @@ public class PlayerController : MonoBehaviour
         {
             isInWater = false;
         }
-
         if (collision.gameObject.CompareTag("MovingPlatform"))
         {
             currentPlatform = null;
@@ -311,7 +424,6 @@ public class PlayerController : MonoBehaviour
     {
         isJumping = false;
         playingJumpAnim = false;
-
         if (collision.gameObject.CompareTag("Water"))
         {
             if (boia || nomeScene.ToLower().Contains("interior"))

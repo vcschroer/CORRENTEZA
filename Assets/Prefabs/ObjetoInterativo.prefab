@@ -130,4 +130,6 @@ MonoBehaviour:
   spawnHeight: 1
   destroyTime: 2
   target: {fileID: 0}
+  interactSound: {fileID: 8300000, guid: 14ea15a5fc758f740a6b42ad587e80ad, type: 3}
+  sfxMixerGroup: {fileID: -2590684932284328806, guid: 94a158c60fc9aa74c95b63850dcbacdd, type: 2}
   highlightColor: {r: 0.02352941, g: 1, b: 0.56586665, a: 1}

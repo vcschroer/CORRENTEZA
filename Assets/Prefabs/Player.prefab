@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   speed: 5
-  jumpForce: 6
+  jumpForce: 7
   fallLimit: -10
   playerInitialPosition: {x: 0, y: 0, z: 0}
   isJumping: 0
@@ -105,6 +105,15 @@ MonoBehaviour:
   sleeping: 1
   isInWater: 0
   shadow: {fileID: 5583582241242483099}
+  jumpSound: {fileID: 8300000, guid: 3e570be6a38b9fd489b6a8d03b4d0497, type: 3}
+  jumpBark1: {fileID: 8300000, guid: 2442acbfdedeeab4b8763a328b55a38c, type: 3}
+  jumpBark2: {fileID: 8300000, guid: 32433c1d20c8e6e4ba1a76205461873e, type: 3}
+  sfxMixerGroup: {fileID: -2590684932284328806, guid: 94a158c60fc9aa74c95b63850dcbacdd, type: 2}
+  defaultFootstepSound: {fileID: 8300000, guid: 771bb062acd562c48a3b49579134d99b, type: 3}
+  waterFootstepSound1: {fileID: 8300000, guid: bd041be9315956b4580ae04ebdda57e6, type: 3}
+  waterFootstepSound2: {fileID: 8300000, guid: 779c4b89ad161ce4f8c5ba30b7d4cd60, type: 3}
+  footstepInterval: 0.25
+  waterFootstepInterval: 0.35
 --- !u!1 &5583582241242483099
 GameObject:
   m_ObjectHideFlags: 0
