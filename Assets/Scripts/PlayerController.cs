@@ -440,8 +440,29 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator WakeUp()
     {
-        yield return new WaitForSeconds(5f);
+        sleeping = true;
+
+        if (ScreenFade.Instance != null)
+        {
+            ScreenFade.Instance.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("ScreenFade não encontrado!");
+        }
+
+        float tempoTotal = 5f;
+        float fadeTime = 1.3f;
+
+        yield return new WaitForSeconds(tempoTotal - fadeTime);
+
+        if (ScreenFade.Instance != null)
+            ScreenFade.Instance.FadeOut(fadeTime);
+
+        yield return new WaitForSeconds(fadeTime);
+
         sleeping = false;
+        Debug.Log("Player acordou!");
     }
 
     public void LevarSusto(Vector3 forcaSusto, float tempoBloqueio)
