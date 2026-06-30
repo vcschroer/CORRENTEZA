@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: gato
       objectReference: {fileID: 0}
+    - target: {fileID: 2679457431083481397, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -2590684932284328806, guid: 94a158c60fc9aa74c95b63850dcbacdd, type: 2}
     - target: {fileID: 4878006354344204878, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.57907176
@@ -171,6 +175,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5691776903626542474, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: idleDelay
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5691776903626542474, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 892250048}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -576,6 +588,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &892250048 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2679457431083481397, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+  m_PrefabInstance: {fileID: 177734885}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1064649351
 PrefabInstance:
   m_ObjectHideFlags: 0

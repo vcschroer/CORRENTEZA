@@ -1,33 +1,48 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using System.Collections;
 
 public class Gato : MonoBehaviour
 {
     public enum EstadoGato { IDLE, ATACANDO, COMENDO }
-    [Header("ConfiguraÁıes de Estado")]
+
+    [Header("Configura√ß√µes de Estado")]
     public EstadoGato estadoAtual = EstadoGato.IDLE;
 
-    [Header("ForÁa do Susto")]
-    [Tooltip("ForÁa com que o cachorro ser· empurrado para tr·s ao ser assustado")]
+    [Header("For√ßa do Susto")]
     public float forcaRepulsao = 8f;
-    [Tooltip("Tempo que o player perder· o controle ao se assustar")]
     public float tempoBloqueioControle = 0.5f;
 
+    [Header("Sons do Gato")]
+    public AudioClip idleSound;
+    public AudioClip[] ataqueSounds;
+    public AudioClip comendoSound;
+
+    [Header("Configura√ß√µes de √Åudio")]
+    public AudioSource audioSource;
+
+    [Tooltip("Delay entre cada reprodu√ß√£o do som Idle")]
+    public float idleDelay = 1.5f;
+
     private Animator animator;
+    private Coroutine idleCoroutine;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         if (animator == null)
-        {
             animator = GetComponentInChildren<Animator>();
-        }
 
-        if (animator == null)
-        {
-            Debug.LogError("O Gato n„o encontrou nenhum componente Animator! Verifique se ele est· no objeto ou no modelo/filho.");
-        }
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
 
+        audioSource.playOnAwake = false;
+        audioSource.loop = false;
+
+        Invoke(nameof(IniciarEstadoInicial), 0.1f);
+    }
+
+    private void IniciarEstadoInicial()
+    {
         if (GameManager.Instance != null && GameManager.Instance.gatoDistraido)
         {
             MudarEstado(EstadoGato.COMENDO);
@@ -40,22 +55,77 @@ public class Gato : MonoBehaviour
 
     void MudarEstado(EstadoGato novoEstado)
     {
-        estadoAtual = novoEstado;
-        if (animator == null) return;
+        if (audioSource.isPlaying)
+            audioSource.Stop();
 
-        switch (estadoAtual)
+        if (idleCoroutine != null)
         {
-            case EstadoGato.IDLE:
-                animator.Play("IDLE");
-                break;
-            case EstadoGato.ATACANDO:
-                animator.Play("ATACANDO");
-                break;
-            case EstadoGato.COMENDO:
-                animator.Play("COMENDO");
-                break;
+            StopCoroutine(idleCoroutine);
+            idleCoroutine = null;
+        }
+
+        estadoAtual = novoEstado;
+
+        if (animator != null)
+        {
+            switch (estadoAtual)
+            {
+                case EstadoGato.IDLE:
+                    animator.Play("IDLE");
+                    idleCoroutine = StartCoroutine(IdleSoundLoop());
+                    break;
+
+                case EstadoGato.ATACANDO:
+                    animator.Play("ATACANDO");
+                    TocarSomAtaque();
+                    break;
+
+                case EstadoGato.COMENDO:
+                    animator.Play("COMENDO");
+                    TocarSomComendoLoop();
+                    break;
+            }
         }
     }
+
+    // ====================== SONS ======================
+
+    private IEnumerator IdleSoundLoop()
+    {
+        while (estadoAtual == EstadoGato.IDLE)
+        {
+            if (idleSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(idleSound);
+            }
+
+            float waitTime = (idleSound != null ? idleSound.length : 0f) + idleDelay;
+            yield return new WaitForSeconds(waitTime);
+        }
+    }
+
+    private void TocarSomComendoLoop()
+    {
+        if (comendoSound != null && audioSource != null)
+        {
+            audioSource.clip = comendoSound;
+            audioSource.loop = true;
+            audioSource.Play();
+        }
+    }
+
+    private void TocarSomAtaque()
+    {
+        if (ataqueSounds == null || ataqueSounds.Length < 3 || audioSource == null)
+            return;
+
+        AudioClip somEscolhido = Random.value <= 0.01f ? ataqueSounds[2] : ataqueSounds[Random.Range(0, 2)];
+
+        audioSource.loop = false;
+        audioSource.PlayOneShot(somEscolhido);
+    }
+
+    // ====================== INTERA√á√ÉO ======================
 
     void OnTriggerEnter(Collider other)
     {
@@ -77,21 +147,18 @@ public class Gato : MonoBehaviour
         {
             GameManager.Instance.gatoDistraido = true;
             MudarEstado(EstadoGato.COMENDO);
-            Debug.Log("<color=green>[Progresso]</color> O Gato aceitou o peixe e est· comendo!");
         }
         else
         {
             MudarEstado(EstadoGato.ATACANDO);
 
-            Vector3 direcaoEmpurr„o = (player.transform.position - transform.position);
-            direcaoEmpurr„o.y = 0;
-            direcaoEmpurr„o.z = 0; 
+            Vector3 direcaoEmpurr√£o = (player.transform.position - transform.position);
+            direcaoEmpurr√£o.y = 0;
+            direcaoEmpurr√£o.z = 0;
+            if (direcaoEmpurr√£o.x == 0) direcaoEmpurr√£o.x = -1f;
+            direcaoEmpurr√£o = direcaoEmpurr√£o.normalized;
 
-            if (direcaoEmpurr„o.x == 0) direcaoEmpurr„o.x = -1f;
-
-            direcaoEmpurr„o = direcaoEmpurr„o.normalized;
-
-            player.LevarSusto(direcaoEmpurr„o * forcaRepulsao, tempoBloqueioControle);
+            player.LevarSusto(direcaoEmpurr√£o * forcaRepulsao, tempoBloqueioControle);
 
             StartCoroutine(VoltarParaIdleDepoisDoAtaque());
         }

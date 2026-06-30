@@ -176,10 +176,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Creditos
+  m_text: "Cr\xE9ditos"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ac4756149ace45842b5ca183a3ed2199, type: 2}
-  m_sharedMaterial: {fileID: 6288723052169674459, guid: ac4756149ace45842b5ca183a3ed2199, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5964e14d39d69e841a4b348599445f5d, type: 2}
+  m_sharedMaterial: {fileID: -4078001543781076021, guid: 5964e14d39d69e841a4b348599445f5d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
