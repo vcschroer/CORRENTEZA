@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     private bool lastWaterSoundWas1 = true;
     private AudioClip currentFootstepClip;
 
+    private bool podeSeMover = true;
     public bool boia
     {
         get { return GameManager.Instance != null ? GameManager.Instance.temBoia : false; }
@@ -243,8 +244,7 @@ public class PlayerController : MonoBehaviour
         }
 
         direction = animator.GetInteger("Direction");
-
-        if (direction != 12)// se n ta dormindo, pode andar
+        if (direction != 12 && podeSeMover)
         {
             Vector3 targetVelocity = movement * speed;
             Vector3 currentVelocity = rb.linearVelocity;
@@ -442,5 +442,26 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         sleeping = false;
+    }
+
+    public void LevarSusto(Vector3 forcaSusto, float tempoBloqueio)
+    {
+        if (!podeSeMover) return;
+
+        StartCoroutine(RoutineSusto(forcaSusto, tempoBloqueio));
+    }
+
+    private IEnumerator RoutineSusto(Vector3 forcaSusto, float tempoBloqueio)
+    {
+        podeSeMover = false;
+
+        rb.linearVelocity = Vector3.zero;
+
+        rb.AddForce(forcaSusto, ForceMode.Impulse);
+
+
+        yield return new WaitForSeconds(tempoBloqueio);
+
+        podeSeMover = true;
     }
 }

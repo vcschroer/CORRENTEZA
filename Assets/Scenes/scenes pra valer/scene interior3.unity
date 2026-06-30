@@ -119,6 +119,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &177734885
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 730216534292965896, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: m_Name
+      value: gato
+      objectReference: {fileID: 0}
+    - target: {fileID: 4878006354344204878, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.57907176
+      objectReference: {fileID: 0}
+    - target: {fileID: 4878006354344204878, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 4878006354344204878, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 4878006354344204878, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4878006354344204878, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4878006354344204878, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4878006354344204878, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4878006354344204878, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4878006354344204878, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4878006354344204878, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 48f27c3114db346448b175d6ea05c85f, type: 3}
 --- !u!1001 &355765651
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -529,11 +586,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3310414102219162122, guid: 23874320109bace45bdbda6255f07bf4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.47
+      value: -3.35
       objectReference: {fileID: 0}
     - target: {fileID: 3310414102219162122, guid: 23874320109bace45bdbda6255f07bf4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.31
+      value: -0.73
       objectReference: {fileID: 0}
     - target: {fileID: 3310414102219162122, guid: 23874320109bace45bdbda6255f07bf4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -638,6 +695,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 349657965137578848, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 816335402622584591, guid: fa439566e30565c438e8935d7155b0a6, type: 3}
       propertyPath: idDestaPorta
       value: saida casa gato
@@ -1394,3 +1455,4 @@ SceneRoots:
   - {fileID: 2099113980}
   - {fileID: 782981025}
   - {fileID: 355765651}
+  - {fileID: 177734885}
