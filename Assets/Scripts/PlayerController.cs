@@ -43,6 +43,10 @@ public class PlayerController : MonoBehaviour
     private bool lastWaterSoundWas1 = true;
     private AudioClip currentFootstepClip;
 
+    [Header("Áudio Inicial")]
+    public AudioClip audioInicial;
+    public AudioSource audioSourceInicial;
+
     private bool podeSeMover = true;
     public bool boia
     {
@@ -442,27 +446,35 @@ public class PlayerController : MonoBehaviour
     {
         sleeping = true;
 
+        // Toca o áudio inicial
+        if (audioInicial != null)
+        {
+            if (audioSourceInicial == null)
+                audioSourceInicial = gameObject.AddComponent<AudioSource>();
+
+            audioSourceInicial.clip = audioInicial;
+            audioSourceInicial.Play();
+        }
+
+        // Garante tela preta
         if (ScreenFade.Instance != null)
-        {
             ScreenFade.Instance.gameObject.SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning("ScreenFade não encontrado!");
-        }
 
-        float tempoTotal = 5f;
-        float fadeTime = 1.3f;
+        float duracaoAudio = audioInicial != null ? audioInicial.length : 5f;
+        float fadeTime = 1.3f;                    // Tempo do fade out
 
-        yield return new WaitForSeconds(tempoTotal - fadeTime);
+        // Espera até pouco antes do áudio terminar
+        yield return new WaitForSeconds(duracaoAudio - fadeTime);
 
+        // Inicia fade out
         if (ScreenFade.Instance != null)
             ScreenFade.Instance.FadeOut(fadeTime);
 
+        // Espera o fade terminar
         yield return new WaitForSeconds(fadeTime);
 
         sleeping = false;
-        Debug.Log("Player acordou!");
+        Debug.Log("Player acordou após o áudio inicial!");
     }
 
     public void LevarSusto(Vector3 forcaSusto, float tempoBloqueio)

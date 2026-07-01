@@ -8,12 +8,14 @@ public class CutsceneFrame
 {
     public Sprite sprite;
 
-    [Header("Transform do Frame")]
-    [Tooltip("Escala do sprite (1,1 = tamanho original)")]
+    [Header("Transform")]
     public Vector2 scale = Vector2.one;
-
-    [Tooltip("Posição ancorada (0,0 = centro da tela)")]
     public Vector2 position = Vector2.zero;
+
+    [Header("Áudio por Frame")]
+    public AudioClip audioClip;
+    [Tooltip("Se marcado, o áudio fica em loop enquanto o frame estiver visível")]
+    public bool loopAudio = false;
 
     [Tooltip("Tempo que este frame fica na tela")]
     public float duration = 0.8f;
@@ -27,7 +29,7 @@ public class CutsceneManager : MonoBehaviour
 
     public float fadeDuration = 0.3f;
 
-    [Header("Configurações da Cutscene - Textos (TextMeshPro)")]
+    [Header("Configurações da Cutscene - Textos")]
     public TextMeshProUGUI cutsceneText;
     [TextArea(3, 10)]
     public string[] texts;
@@ -38,7 +40,8 @@ public class CutsceneManager : MonoBehaviour
 
     private CanvasGroup imageCanvasGroup;
     private CanvasGroup textCanvasGroup;
-    private Vector2 originalAnchoredPosition; // Para restaurar posição
+    private AudioSource cutsceneAudioSource;
+    private Vector2 originalPosition;
 
     void Awake()
     {
@@ -49,9 +52,15 @@ public class CutsceneManager : MonoBehaviour
         if (imageCanvasGroup == null)
             imageCanvasGroup = cutsceneImage.gameObject.AddComponent<CanvasGroup>();
 
-        // Salva posição original
+        // Áudio
+        cutsceneAudioSource = GetComponent<AudioSource>();
+        if (cutsceneAudioSource == null)
+            cutsceneAudioSource = gameObject.AddComponent<AudioSource>();
+
+        cutsceneAudioSource.playOnAwake = false;
+
         if (cutsceneImage != null)
-            originalAnchoredPosition = cutsceneImage.rectTransform.anchoredPosition;
+            originalPosition = cutsceneImage.rectTransform.anchoredPosition;
 
         if (cutsceneText != null)
         {
@@ -64,9 +73,7 @@ public class CutsceneManager : MonoBehaviour
     void Start()
     {
         if (autoStart && frames.Length > 0)
-        {
             StartCoroutine(PlayCutscene());
-        }
     }
 
     public IEnumerator PlayCutscene()
@@ -78,21 +85,23 @@ public class CutsceneManager : MonoBehaviour
         {
             var frame = frames[i];
 
-            // Aplica Sprite, Escala e Posição
+            // Aplica visual
             cutsceneImage.sprite = frame.sprite;
             cutsceneImage.rectTransform.localScale = frame.scale;
             cutsceneImage.rectTransform.anchoredPosition = frame.position;
 
-            yield return StartCoroutine(Fade(imageCanvasGroup, 0f, 1f, fadeDuration));
+            // Áudio do frame
+            PlayFrameAudio(frame);
 
+            yield return StartCoroutine(Fade(imageCanvasGroup, 0f, 1f, fadeDuration));
             yield return new WaitForSeconds(frame.duration);
 
             if (i < frames.Length - 1)
                 yield return StartCoroutine(Fade(imageCanvasGroup, 1f, 0f, fadeDuration));
         }
 
-        // Restaura posição original e fade out final
-        cutsceneImage.rectTransform.anchoredPosition = originalAnchoredPosition;
+        // Final das imagens
+        cutsceneImage.rectTransform.anchoredPosition = originalPosition;
         yield return StartCoroutine(Fade(imageCanvasGroup, 1f, 0f, fadeDuration));
 
         // === TEXTOS ===
@@ -116,6 +125,16 @@ public class CutsceneManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
         OnCutsceneEnd();
+    }
+
+    private void PlayFrameAudio(CutsceneFrame frame)
+    {
+        if (frame.audioClip == null || cutsceneAudioSource == null) return;
+
+        cutsceneAudioSource.Stop();
+        cutsceneAudioSource.clip = frame.audioClip;
+        cutsceneAudioSource.loop = frame.loopAudio;
+        cutsceneAudioSource.Play();
     }
 
     private IEnumerator Fade(CanvasGroup group, float from, float to, float duration)

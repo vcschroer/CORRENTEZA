@@ -114,6 +114,8 @@ MonoBehaviour:
   waterFootstepSound2: {fileID: 8300000, guid: 779c4b89ad161ce4f8c5ba30b7d4cd60, type: 3}
   footstepInterval: 0.25
   waterFootstepInterval: 0.35
+  audioInicial: {fileID: 8300000, guid: 9b0c3902e99e6e64688d2c92b4e887b7, type: 3}
+  audioSourceInicial: {fileID: 0}
 --- !u!1 &5583582241242483099
 GameObject:
   m_ObjectHideFlags: 0
