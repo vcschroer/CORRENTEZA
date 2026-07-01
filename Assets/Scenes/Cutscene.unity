@@ -197,14 +197,14 @@ MonoBehaviour:
     loopAudio: 0
     duration: 3
   - sprite: {fileID: 21300000, guid: f60b5f43bd085f44fb71a7c6a7a69d36, type: 3}
-    scale: {x: 3, y: 3}
-    position: {x: 0, y: -180}
+    scale: {x: 1, y: 1}
+    position: {x: 0, y: 0}
     audioClip: {fileID: 8300000, guid: ea599321256ca9e48b33814c7528a90c, type: 3}
     loopAudio: 0
     duration: 3
   - sprite: {fileID: 21300000, guid: b1800c6c70413fe4aa69a62512999ec3, type: 3}
-    scale: {x: 3, y: 3}
-    position: {x: 0, y: -180}
+    scale: {x: 1, y: 1}
+    position: {x: 0, y: 0}
     audioClip: {fileID: 8300000, guid: fc5011bf41bf2b341b5e15bdaeae9dac, type: 3}
     loopAudio: 0
     duration: 3
@@ -227,14 +227,14 @@ MonoBehaviour:
     loopAudio: 0
     duration: 3
   - sprite: {fileID: 21300000, guid: 65b1f05363c51cf44a0ba65e338ccb79, type: 3}
-    scale: {x: 3, y: 3}
-    position: {x: 0, y: -100}
+    scale: {x: 1, y: 1}
+    position: {x: 0, y: 0}
     audioClip: {fileID: 8300000, guid: ea599321256ca9e48b33814c7528a90c, type: 3}
     loopAudio: 0
     duration: 3
   - sprite: {fileID: 21300000, guid: fb90737de15a82448a33d635c4fc3680, type: 3}
-    scale: {x: 4, y: 4}
-    position: {x: -100, y: -70}
+    scale: {x: 1, y: 1}
+    position: {x: 0, y: 0}
     audioClip: {fileID: 8300000, guid: fc5011bf41bf2b341b5e15bdaeae9dac, type: 3}
     loopAudio: 0
     duration: 3
